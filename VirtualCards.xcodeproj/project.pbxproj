@@ -13,6 +13,10 @@
 		9C358563272F3FD000FEC617 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C358561272F3FD000FEC617 /* Main.storyboard */; };
 		9C358565272F3FD200FEC617 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C358564272F3FD200FEC617 /* Assets.xcassets */; };
 		9C358568272F3FD200FEC617 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C358566272F3FD200FEC617 /* LaunchScreen.storyboard */; };
+		9C358571272F404E00FEC617 /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C358570272F404E00FEC617 /* WalletView.swift */; };
+		9C358574272F405A00FEC617 /* WalletView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C358573272F405A00FEC617 /* WalletView.xib */; };
+		9C358577272F415B00FEC617 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C358576272F415B00FEC617 /* CardView.swift */; };
+		9C35857A272F416500FEC617 /* CardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C358579272F416500FEC617 /* CardView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		9C358564272F3FD200FEC617 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C358567272F3FD200FEC617 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C358569272F3FD200FEC617 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9C358570272F404E00FEC617 /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
+		9C358573272F405A00FEC617 /* WalletView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WalletView.xib; sourceTree = "<group>"; };
+		9C358576272F415B00FEC617 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		9C358579272F416500FEC617 /* CardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +67,10 @@
 				9C35855B272F3FD000FEC617 /* AppDelegate.swift */,
 				9C35855D272F3FD000FEC617 /* SceneDelegate.swift */,
 				9C35855F272F3FD000FEC617 /* ViewController.swift */,
+				9C358570272F404E00FEC617 /* WalletView.swift */,
+				9C358573272F405A00FEC617 /* WalletView.xib */,
+				9C358576272F415B00FEC617 /* CardView.swift */,
+				9C358579272F416500FEC617 /* CardView.xib */,
 				9C358561272F3FD000FEC617 /* Main.storyboard */,
 				9C358564272F3FD200FEC617 /* Assets.xcassets */,
 				9C358566272F3FD200FEC617 /* LaunchScreen.storyboard */,
@@ -126,7 +138,9 @@
 			files = (
 				9C358568272F3FD200FEC617 /* LaunchScreen.storyboard in Resources */,
 				9C358565272F3FD200FEC617 /* Assets.xcassets in Resources */,
+				9C35857A272F416500FEC617 /* CardView.xib in Resources */,
 				9C358563272F3FD000FEC617 /* Main.storyboard in Resources */,
+				9C358574272F405A00FEC617 /* WalletView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +154,8 @@
 				9C358560272F3FD000FEC617 /* ViewController.swift in Sources */,
 				9C35855C272F3FD000FEC617 /* AppDelegate.swift in Sources */,
 				9C35855E272F3FD000FEC617 /* SceneDelegate.swift in Sources */,
+				9C358571272F404E00FEC617 /* WalletView.swift in Sources */,
+				9C358577272F415B00FEC617 /* CardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
