@@ -361,16 +361,12 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
     }
     
     func updateGrabbedCardView(offset: CGFloat) {
-        
         var cardViewFrame = grabbedCardView?.frame ?? CGRect.zero
         cardViewFrame.origin.y = grabbedCardViewOriginalY + offset
         grabbedCardView?.frame = cardViewFrame
-        
-        
     }
     
     var presentationCenter: CGPoint {
-        
         let centerRect = CGRect(x: 0, y: cardViewTopInset,
                                 width: frame.width,
                                 height: frame.height - collapsedCardViewStackHeight - cardViewTopInset)
@@ -412,7 +408,6 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
     }
     
     func layoutWalletHeader() {
-        
         if let walletHeader = walletHeader {
             
             var walletHeaderFrame = walletHeader.frame
@@ -422,7 +417,6 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
             walletHeader.frame = walletHeaderFrame
             
         }
-        
     }
     
     func layoutWalletView(animationDuration: TimeInterval? = nil,
@@ -497,7 +491,8 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
         let walletHeaderY = walletHeader?.frame.origin.y ?? zeroRectConvertedFromWalletView.origin.y
         
         // set this point to  begin the cards stack
-        var cardViewYPoint = CGFloat(250.0)
+        let stackViewStartPoint = CGFloat(250.0)
+        var cardViewYPoint = stackViewStartPoint
         
         let cardViewHeight = self.cardViewHeight
         
@@ -511,7 +506,7 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
             
             if cardView == firstCardView {
                 
-                cardViewFrame.origin.y = min(cardViewFrame.origin.y, walletHeaderY + walletHeaderHeight)
+                cardViewFrame.origin.y = min(cardViewFrame.origin.y, stackViewStartPoint)
                 cardView.frame = cardViewFrame
                 
             } else {
