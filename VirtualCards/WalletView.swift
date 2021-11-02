@@ -491,7 +491,7 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
         let walletHeaderY = walletHeader?.frame.origin.y ?? zeroRectConvertedFromWalletView.origin.y
         
         // set this point to  begin the cards stack
-        let stackViewStartPoint = CGFloat(250.0)
+        let stackViewStartPoint = CGFloat(bounds.height/2)
         var cardViewYPoint = stackViewStartPoint
         
         let cardViewHeight = self.cardViewHeight
