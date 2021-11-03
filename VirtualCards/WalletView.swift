@@ -85,39 +85,39 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
      - parameter completion: A block object to be executed when the animation sequence ends.
 
      */
-    open func insert(cardView: CardView, animated: Bool = false, presented: Bool = false,  completion: InsertionCompletion? = nil) {
-        
-        presentedCardView = presented ? cardView : self.presentedCardView
-        
-        if animated {
-            
-            let y = scrollView.convert(CGPoint(x: 0, y: frame.maxY), from: self).y
-            cardView.frame = CGRect(x: 0, y: y, width: frame.width, height: cardViewHeight)
-            cardView.layoutIfNeeded()
-            scrollView.insertSubview(cardView, at: 0)
-            
-            UIView.animateKeyframes(withDuration: WalletView.insertionAnimationSpeed, delay: 0, options: [.beginFromCurrentState, .calculationModeCubic], animations: { [weak self] in
-                
-                UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1.0, animations: {
-                    self?.insert(cardViews: [cardView] + (self?.insertedCardViews ?? []))
-                    self?.layoutWalletView(placeVisibleCardViews: false)
-                })
-                
-                }, completion: { [weak self] (_) in
-                    
-                    self?.reload(cardViews: self?.insertedCardViews ?? [])
-                    completion?()
-                    
-            })
-            
-            
-        } else {
-            reload(cardViews: [cardView] + insertedCardViews)
-            placeVisibleCardViews()
-            completion?()
-        }
-        
-    }
+//    open func insert(cardView: CardView, animated: Bool = false, presented: Bool = false,  completion: InsertionCompletion? = nil) {
+//
+//        presentedCardView = presented ? cardView : self.presentedCardView
+//
+//        if animated {
+//
+//            let y = scrollView.convert(CGPoint(x: 0, y: frame.maxY), from: self).y
+//            cardView.frame = CGRect(x: 0, y: y, width: frame.width, height: cardViewHeight)
+//            cardView.layoutIfNeeded()
+//            scrollView.insertSubview(cardView, at: 0)
+//
+//            UIView.animateKeyframes(withDuration: WalletView.insertionAnimationSpeed, delay: 0, options: [.beginFromCurrentState, .calculationModeCubic], animations: { [weak self] in
+//
+//                UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1.0, animations: {
+//                    self?.insert(cardViews: [cardView] + (self?.insertedCardViews ?? []))
+//                    self?.layoutWalletView(placeVisibleCardViews: false)
+//                })
+//
+//                }, completion: { [weak self] (_) in
+//
+//                    self?.reload(cardViews: self?.insertedCardViews ?? [])
+//                    completion?()
+//
+//            })
+//
+//
+//        } else {
+//            reload(cardViews: [cardView] + insertedCardViews)
+//            placeVisibleCardViews()
+//            completion?()
+//        }
+//
+//    }
     /** The desirable card view height value. Used when the wallet view has enough space. */
     public var preferableCardViewHeight: CGFloat = .greatestFiniteMagnitude { didSet { calculateLayoutValues() } }
     
@@ -167,6 +167,18 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
+    /** Returns an Settings Button view that is displayed above the wallet view. */
+    @IBOutlet public weak var settingsView: UIView? {
+        willSet {
+            if let settingsView = newValue {
+                scrollView.addSubview(settingsView)
+            }
+        }
+        didSet {
+            oldValue?.removeFromSuperview()
+            calculateLayoutValues()
+        }
+    }
     
     /** The card view that is presented by this wallet view. */
     public var presentedCardView: CardView? {
@@ -276,6 +288,12 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
         
         self.walletHeader = walletHeader
     }
+
+    func prepareSettingsView() {
+        let view = UIView(frame: CGRect(x: 0, y: bounds.height/2 + 100, width: bounds.width, height: 100))
+        view.backgroundColor = .red
+        self.settingsView = view
+    }
     
     let scrollView = UIScrollView()
 
@@ -283,7 +301,7 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
         
         prepareScrollView()
         prepareWalletHeaderView()
-        
+        prepareSettingsView()
     }
     
     func insert(cardViews: [CardView]) {
@@ -377,6 +395,7 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
     
     var collapsedCardViewStackHeight:   CGFloat = 0
     var walletHeaderHeight:         CGFloat = 0
+    var settingsViewHeight:             CGFloat = 100
     var cardViewTopInset:               CGFloat = 0
     var maximumCardViewHeight:          CGFloat = 0
     var cardViewHeight:                 CGFloat = 0
@@ -384,8 +403,8 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
     
     func calculateLayoutValues(shouldLayoutWalletView: Bool = true) {
         
-        
         walletHeaderHeight = walletHeader?.frame.height ?? 0
+        settingsViewHeight = settingsView?.frame.height ?? 0
         
         cardViewTopInset = scrollView.contentInset.top + walletHeaderHeight
         
@@ -418,6 +437,16 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
             
         }
     }
+
+    func layoutSettingsButtonView() {
+        if let view = settingsView {
+            var viewFrame = view.frame
+            viewFrame.origin = convert(.zero, to: scrollView)
+            viewFrame.origin.y += scrollView.contentInset.top
+            viewFrame.size = CGSize(width: frame.width, height: view.frame.height)
+            view.frame = viewFrame
+        }
+    }
     
     func layoutWalletView(animationDuration: TimeInterval? = nil,
                           animationOptions: UIView.KeyframeAnimationOptions = [.beginFromCurrentState, .calculationModeCubic],
@@ -427,7 +456,7 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
         let animations = { [weak self] in
             
             self?.layoutWalletHeader()
-            
+            self?.layoutSettingsButtonView()
             if let presentedCardView = self?.presentedCardView,
                 let insertedCardViews = self?.insertedCardViews {
                 self?.makeCollapseLayout(collapsePresentedCardView: !insertedCardViews.contains(presentedCardView))
@@ -489,7 +518,7 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
         }()
         
         let walletHeaderY = walletHeader?.frame.origin.y ?? zeroRectConvertedFromWalletView.origin.y
-        
+
         // set this point to  begin the cards stack
         let stackViewStartPoint = CGFloat(bounds.height/2)
         var cardViewYPoint = stackViewStartPoint

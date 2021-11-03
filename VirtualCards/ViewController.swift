@@ -13,9 +13,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        var coloredCardViews = [CardView]()
+        var coloredCardViews = [VirtualCardView]()
         for index in 1...6 {
-            let cardView = CardView()
+            let cardView = VirtualCardView()
             cardView.index = index
             coloredCardViews.append(cardView)
         }
