@@ -153,6 +153,9 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
     
     /** This block is called after the receiver’s card view is presented or dimissed. */
     public var didUpdatePresentedCardViewBlock: PresentedCardViewDidUpdateBlock?
+
+    /** The Y positon of settings view. */
+    public static var settingsViewYPosition: CGFloat = UIScreen.main.bounds.height/2 - 200
     
     /** Returns an accessory view that is displayed above the wallet view. */
     @IBOutlet public weak var walletHeader: UIView? {
@@ -290,15 +293,30 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
     }
 
     func prepareSettingsView() {
-        let view = UIView(frame: CGRect(x: 0, y: bounds.height/2 + 100, width: bounds.width, height: 100))
-        view.backgroundColor = .red
-        self.settingsView = view
+        let settingView = UIView(frame: CGRect(x: 0, y: WalletView.settingsViewYPosition, width: bounds.width, height: 100))
+        settingView.backgroundColor = .gray
+        let button = UIButton()
+        button.frame.size.width = 200
+        button.frame.size.height = 50
+        button.setTitle("Settings", for: .normal)
+        button.setTitleColor(.brown, for: .normal)
+        button.backgroundColor = .white
+        button.addTarget(self,
+                         action: #selector(settingsButtonAction),
+                         for: .touchUpInside)
+        button.frame = CGRect(x: settingView.frame.size.width/2 - button.frame.size.width/2, y: settingView.frame.size.height/2 - button.frame.size.height/2, width: button.frame.width, height: button.frame.height)
+        settingView.addSubview(button)
+        self.settingsView = settingView
     }
     
     let scrollView = UIScrollView()
 
+    @objc
+    func settingsButtonAction() {
+        print("Button pressed")
+    }
+
     func prepareWalletView() {
-        
         prepareScrollView()
         prepareWalletHeaderView()
         prepareSettingsView()
@@ -398,7 +416,7 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
     var settingsViewHeight:             CGFloat = 100
     var cardViewTopInset:               CGFloat = 0
     var maximumCardViewHeight:          CGFloat = 0
-    var cardViewHeight:                 CGFloat = 0
+    var cardViewHeight:                 CGFloat = 150
     var distanceBetweenCardViews:       CGFloat = 0
     
     func calculateLayoutValues(shouldLayoutWalletView: Bool = true) {
@@ -442,7 +460,7 @@ class WalletView: UIView, UIGestureRecognizerDelegate {
         if let view = settingsView {
             var viewFrame = view.frame
             viewFrame.origin = convert(.zero, to: scrollView)
-            viewFrame.origin.y += scrollView.contentInset.top
+            viewFrame.origin.y += scrollView.contentInset.top + WalletView.settingsViewYPosition
             viewFrame.size = CGSize(width: frame.width, height: view.frame.height)
             view.frame = viewFrame
         }
